@@ -14,7 +14,10 @@ const useStyles = makeStyles((theme) => ({
     backgroundColor: theme.palette.background.paper,
   },
   tabs: {
-    alignItems: 'center'
+    alignItems: 'center',
+  },
+  conteudo: {
+    marginTop:'35px'
   }
 }));
 
@@ -29,7 +32,7 @@ export default function LabTabs() {
   return (
     <div className={classes.root}>
       <TabContext value={value} class={classes.tabs}>
-        <AppBar position="static" >
+        <AppBar position="fixed">
           <TabList onChange={handleChange} aria-label="simple tabs example" class={classes.tabs}>
             <Tab label="Contas" value="1" />
             <Tab label="Carteira" value="2" />
@@ -37,10 +40,12 @@ export default function LabTabs() {
             <Tab label="Investimentos" value="4" />
           </TabList>
         </AppBar>
+        <div class={classes.conteudo}>
         <TabPanel value="1"><Contas /></TabPanel>
         <TabPanel value="2"><Carteira /></TabPanel>
         <TabPanel value="3">In production</TabPanel>
         <TabPanel value="4">In production</TabPanel>
+        </div>
       </TabContext>
     </div>
   );
