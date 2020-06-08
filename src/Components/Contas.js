@@ -30,8 +30,9 @@ const useStyles = makeStyles({
 export default function SimpleCard() {
   const classes = useStyles();
   const [open, setOpen] = React.useState(false);
-
+  const [pago, setPago] = React.useState(false);
   const handleClick = () => {
+    setPago(true)
     setOpen(true);
   };
 

@@ -1,29 +1,56 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { makeStyles } from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
+import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
-import TabContext from '@material-ui/lab/TabContext';
-import TabList from '@material-ui/lab/TabList';
-import TabPanel from '@material-ui/lab/TabPanel';
-import Contas from './Contas'
+import Typography from '@material-ui/core/Typography';
+import Box from '@material-ui/core/Box';
 import Carteira from './Carteira'
+import Contas from './Contas'
+function TabPanel(props) {
+  const { children, value, index, ...other } = props;
+
+  return (
+    <div
+      role="tabpanel"
+      hidden={value !== index}
+      id={`scrollable-auto-tabpanel-${index}`}
+      aria-labelledby={`scrollable-auto-tab-${index}`}
+      {...other}
+    >
+      {value === index && (
+        <Box p={3}>
+          <Typography>{children}</Typography>
+        </Box>
+      )}
+    </div>
+  );
+}
+
+TabPanel.propTypes = {
+  children: PropTypes.node,
+  index: PropTypes.any.isRequired,
+  value: PropTypes.any.isRequired,
+};
+
+function a11yProps(index) {
+  return {
+    id: `scrollable-auto-tab-${index}`,
+    'aria-controls': `scrollable-auto-tabpanel-${index}`,
+  };
+}
 
 const useStyles = makeStyles((theme) => ({
   root: {
     flexGrow: 1,
     backgroundColor: theme.palette.background.paper,
   },
-  tabs: {
-    alignItems: 'center',
-  },
-  conteudo: {
-    marginTop:'35px'
-  }
 }));
 
-export default function LabTabs() {
+export default function ScrollableTabsButtonAuto() {
   const classes = useStyles();
-  const [value, setValue] = React.useState('1');
+  const [value, setValue] = React.useState(0);
 
   const handleChange = (event, newValue) => {
     setValue(newValue);
@@ -31,22 +58,34 @@ export default function LabTabs() {
 
   return (
     <div className={classes.root}>
-      <TabContext value={value} class={classes.tabs}>
-        <AppBar position="fixed">
-          <TabList onChange={handleChange} aria-label="simple tabs example" class={classes.tabs}>
-            <Tab label="Contas" value="1" />
-            <Tab label="Carteira" value="2" />
-            <Tab label="Graficos" value="3" />
-            <Tab label="Investimentos" value="4" />
-          </TabList>
-        </AppBar>
-        <div class={classes.conteudo}>
-        <TabPanel value="1"><Contas /></TabPanel>
-        <TabPanel value="2"><Carteira /></TabPanel>
-        <TabPanel value="3">In production</TabPanel>
-        <TabPanel value="4">In production</TabPanel>
-        </div>
-      </TabContext>
+      <AppBar position="static" color="primary">
+        <Tabs
+          value={value}
+          onChange={handleChange}
+          indicatorColor="secondary"
+          textColor="default"
+          variant="scrollable"
+          scrollButtons="auto"
+          aria-label="scrollable auto tabs example"
+        >
+          <Tab label="Minhas contas" {...a11yProps(0)} />
+          <Tab label="Carteira" {...a11yProps(1)} />
+          <Tab label="Graficos" {...a11yProps(2)} />
+          <Tab label="Investimentos" {...a11yProps(3)} />
+        </Tabs>
+      </AppBar>
+      <TabPanel value={value} index={0}>
+        <Contas />
+      </TabPanel>
+      <TabPanel value={value} index={1}>
+        <Carteira />
+      </TabPanel>
+      <TabPanel value={value} index={2}>
+        Graficos
+      </TabPanel>
+      <TabPanel value={value} index={3}>
+        Manutencao
+      </TabPanel>
     </div>
   );
 }
