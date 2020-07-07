@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useState,useEffect} from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import Card from "@material-ui/core/Card";
 import CardActions from "@material-ui/core/CardActions";
@@ -9,10 +9,11 @@ import Grid from "@material-ui/core/Grid";
 import Snackbar from "@material-ui/core/Snackbar";
 import IconButton from "@material-ui/core/IconButton";
 import CloseIcon from "@material-ui/icons/Close";
-const useStyles = makeStyles({
+import axios from 'axios'
+const useStyles = makeStyles((theme) => ({
   root: {
-    maxWidth: 275,
     boxShadow: "32px",
+    width: '270px',
   },
   bullet: {
     display: "inline-block",
@@ -25,79 +26,58 @@ const useStyles = makeStyles({
   pos: {
     marginBottom: 12,
   },
-});
+}));
 
 export default function SimpleCard() {
   const classes = useStyles();
   const [open, setOpen] = React.useState(false);
   const [pago, setPago] = React.useState(false);
+  const [contas, setContas] = useState([])
+  const [vencimento, setVencimento] = useState(Date.now())
+
+  function addDays(date, days) {
+    var result = new Date(date);
+    result.setDate(days);
+    return result.toLocaleDateString();
+  }
+
   const handleClick = () => {
     setPago(true)
     setOpen(true);
   };
-
+  useEffect(() => {
+    axios.get('https://localhost:44347/api/Conta/all').then(result =>{
+      setContas(result.data)
+    })
+  }, [])
   const handleClose = (event, reason) => {
     if (reason === "clickaway") {
       return;
     }
-
     setOpen(false);
   };
 
-  const data = [
-    {
-      tipoConta: "Conta de luz",
-      valor: 143.44,
-      status: "Pendente",
-      Vencimento: "08/06/2020",
-    },
-    {
-      tipoConta: "Conta de telefone",
-      valor: 223.44,
-      status: "Pendente",
-      Vencimento: "08/06/2020",
-    },
-    {
-      tipoConta: "Sky",
-      valor: 93.44,
-      status: "Pendente",
-      Vencimento: "08/06/2020",
-    },
-    {
-      tipoConta: "Mercado",
-      valor: 623.44,
-      status: "Pendente",
-      Vencimento: "08/06/2020",
-    },
-  ];
   return (
     <div className={classes.root}>
-      <Grid
-        container
-        spacing={2}
-        direction="row"
-        justify="flex-start"
-        alignItems="flex-start"
-      >
-        {data.map((e) => (
-          <Grid item xs={12} sm={6} md={3} key={data.indexOf(e)}>
-            <Card className={classes.root}>
+        {contas.map((e) => (
+          <Grid style={{marginTop: '35px'}} container item xs={12} spacing={3}  key={contas.indexOf(e)}>
+            <Card className={classes.root} >
               <CardContent>
                 <Typography
                   className={classes.title}
                   color="primary"
                   gutterBottom
                 >
-                  {e.tipoConta}
+                {e.nomeConta}
                 </Typography>
                 <Typography variant="h5" component="h2" color="error">
                   R$: {e.valor}
                 </Typography>
                 <Typography className={classes.pos} color="textSecondary">
-                  {e.status}
+                  {e.statusConta}
                 </Typography>
                 <Typography variant="body2" component="p" color="textSecondary">
-                  Vencimento: {e.Vencimento}
+                  Vencimento: {addDays(new Date(), e.diaVencimento)} 
                 </Typography>
               </CardContent>
               <CardActions>
@@ -128,7 +108,7 @@ export default function SimpleCard() {
             </Card>
           </Grid>
         ))}
-      </Grid>
+      
     </div>
   );
 }
