@@ -1,7 +1,6 @@
 import React from 'react';
 import {Bar} from 'react-chartjs-2';
 import axios from 'axios'
-import {Line} from 'react-chartjs-2';
 
  export default function Grafico(){
     const [contas, setContas] = React.useState([])
@@ -45,8 +44,8 @@ import {Line} from 'react-chartjs-2';
       const fetchDatas = async () => {
         const CancelToken = axios.CancelToken;
         const source = CancelToken.source();
-        const getContas = await axios.get('https://localhost:44347/api/Conta/totalmeses', { cancelToken: source.token })
-        const getCarteiras = await axios.get('https://localhost:44347/api/Carteira/totalmeses', { cancelToken: source.token })
+        const getContas = await axios.get('https://decasa-back.herokuapp.com/Conta/totalmeses', { cancelToken: source.token })
+        const getCarteiras = await axios.get('https://decasa-back.herokuapp.com/Carteira/totalmeses', { cancelToken: source.token })
         
         setCarteira(getCarteiras.data)
         setContas(getContas.data)

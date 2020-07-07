@@ -18,13 +18,13 @@ export default function FormattedInputs() {
   const classes = useStyles();
   const [saldo, setSaldo] = useState(0)
   useEffect(() => {
-    axios.get('https://localhost:44347/api/Carteira/carteira-atual').then(result =>{
+    axios.get('https://decasa-back.herokuapp.com/api/Carteira/carteira-atual').then(result =>{
       setSaldo(result.data)
     })
   }, [])
   return (
     <div className={classes.root}>
-    {saldo == 0 ?  <FormCarteira /> : <ExibeCarteira value={saldo}/>}
+    {saldo === 0 ?  <FormCarteira /> : <ExibeCarteira value={saldo}/>}
     </div>
   );
 }

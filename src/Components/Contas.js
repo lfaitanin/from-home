@@ -31,9 +31,9 @@ const useStyles = makeStyles((theme) => ({
 export default function SimpleCard() {
   const classes = useStyles();
   const [open, setOpen] = React.useState(false);
-  const [pago, setPago] = React.useState(false);
+  //const [pago, setPago] = React.useState(false);
   const [contas, setContas] = useState([])
-  const [vencimento, setVencimento] = useState(Date.now())
+  //const [vencimento, setVencimento] = useState(Date.now())
 
   function addDays(date, days) {
     var result = new Date(date);
@@ -42,11 +42,11 @@ export default function SimpleCard() {
   }
 
   const handleClick = () => {
-    setPago(true)
+    //setPago(true)
     setOpen(true);
   };
   useEffect(() => {
-    axios.get('https://localhost:44347/api/Conta/all').then(result =>{
+    axios.get('https://decasa-back.herokuapp.com/api/Conta/all').then(result =>{
       setContas(result.data)
     })
   }, [])

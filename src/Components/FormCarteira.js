@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from "react";
+import React from "react";
 import PropTypes from "prop-types";
 import NumberFormat from "react-number-format";
 import { makeStyles } from "@material-ui/core/styles";
@@ -58,7 +58,6 @@ NumberFormatCustom.propTypes = {
 export default function FormattedInputs() {
   const classes = useStyles();
   const [criada, setCriada] = React.useState(false)
-  const [saldo,setSaldo] = React.useState(0)
  const [values, setValues] = React.useState({
     salario: 0,
     extras: 0,
@@ -80,7 +79,7 @@ export default function FormattedInputs() {
       "saldo": parseInt(values.saldo),
       "mes": values.mesReferencia
     }
-    axios.post('https://localhost:44347/api/carteira/add', params).then(result =>{
+    axios.post('https://decasa-back.herokuapp.com/api/carteira/add', params).then(result =>{
       setCriada(true)
       debugger
       window.location.reload(true)
@@ -154,7 +153,7 @@ export default function FormattedInputs() {
       >
         Cadastrar carteira
       </Button>
-      
+              {criada}
           </div>
   );
 }

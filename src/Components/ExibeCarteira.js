@@ -35,7 +35,6 @@ const useStyles = makeStyles({
 
 export default function OutlinedCard(saldo) {
   const classes = useStyles();
-  const bull = <span className={classes.bullet}>•</span>;
 
   return (
       <div style={{marginTop:'143px', position:'relative'}}>
