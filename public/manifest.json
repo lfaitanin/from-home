@@ -1,8 +1,8 @@
 {
   "name": "De Casa",
   "short_name": "DeCasa",
-  "theme_color": "#1a89e2",
-  "background_color": "#1a89e2",
+  "theme_color": "#FFFFFF",
+  "background_color": "#FFFFFF",
   "display": "standalone",
   "Scope": "/",
   "start_url": "/",

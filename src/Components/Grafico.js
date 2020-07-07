@@ -42,10 +42,8 @@ import axios from 'axios'
 
     React.useEffect(() => {
       const fetchDatas = async () => {
-        const CancelToken = axios.CancelToken;
-        const source = CancelToken.source();
-        const getContas = await axios.get('https://decasa-back.herokuapp.com/Conta/totalmeses', { cancelToken: source.token })
-        const getCarteiras = await axios.get('https://decasa-back.herokuapp.com/Carteira/totalmeses', { cancelToken: source.token })
+        const getContas = await axios.get('https://decasa-back.herokuapp.com/api/Conta/totalmeses')
+        const getCarteiras = await axios.get('https://decasa-back.herokuapp.com/api/Carteira/totalmeses')
         
         setCarteira(getCarteiras.data)
         setContas(getContas.data)
